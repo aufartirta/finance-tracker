@@ -241,7 +241,7 @@ export default function App() {
               <input placeholder="Amount (Rp)" type="number" value={form.amount} onChange={e => setForm(p => ({ ...p, amount: e.target.value }))} style={iStyle()} />
               <input placeholder="Item (e.g. Food, Salary)" value={form.category} onChange={e => setForm(p => ({ ...p, category: e.target.value }))} style={iStyle()} />
               <input placeholder="Note (optional)" value={form.note} onChange={e => setForm(p => ({ ...p, note: e.target.value }))} style={iStyle()} />
-              <input type="date" value={form.date} onChange={e => setForm(p => ({ ...p, date: e.target.value }))} style={iStyle({ boxSizing: "border-box", maxWidth: "100%" })} />
+              <input type="date" value={form.date} onChange={e => setForm(p => ({ ...p, date: e.target.value }))} style={iStyle({ boxSizing: "border-box", maxWidth: "100%", minWidth: 0, overflow: "hidden" })} />
             </div>
             <button onClick={addTransaction} disabled={saving} style={{ width: "100%", marginTop: 14, padding: 14, borderRadius: 12, border: "none", background: C.text, color: "#fff", fontSize: 16, fontWeight: 600, cursor: "pointer" }}>
               {saving ? "Saving..." : "Add Transaction"}
@@ -269,7 +269,7 @@ export default function App() {
                 <option value="weekly">Weekly</option>
                 <option value="monthly">Monthly</option>
               </select>
-              <input type="date" value={recForm.start_date} onChange={e => setRecForm(p => ({ ...p, start_date: e.target.value }))} style={iStyle()} />
+              <input type="date" value={recForm.start_date} onChange={e => setRecForm(p => ({ ...p, start_date: e.target.value }))} style={iStyle({ boxSizing: "border-box", maxWidth: "100%", minWidth: 0, overflow: "hidden" })} />
             </div>
             <button onClick={addRecurring} disabled={saving} style={{ width: "100%", marginTop: 14, padding: 14, borderRadius: 12, border: "none", background: C.text, color: "#fff", fontSize: 16, fontWeight: 600, cursor: "pointer" }}>
               {saving ? "Saving..." : "Add Recurring"}
