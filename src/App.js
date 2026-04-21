@@ -65,7 +65,6 @@ export default function App() {
     } catch (e) { console.error(e); }
   }, []);
 
-// eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (session?.access_token) fetchData(session.access_token);
   }, [session, fetchData]);
@@ -135,7 +134,7 @@ export default function App() {
       <div style={{ ...card({ marginBottom: 0 }), width: "100%", maxWidth: 360, padding: 28 }}>
         <div style={{ textAlign: "center", marginBottom: 24 }}>
           <div style={{ fontSize: 40, marginBottom: 8 }}>💰</div>
-          <h1 style={{ fontSize: 22, fontWeight: 700, margin: 0 }}>Finance Tracker</h1>
+          <h1 style={{ fontSize: 22, fontWeight: 700, margin: 0 }}>Personal Finance Tracker</h1>
           <p style={{ color: C.sub, margin: "4px 0 0", fontSize: 14 }}>{authMode === "login" ? "Sign in to your account" : "Create a new account"}</p>
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 14 }}>
@@ -161,9 +160,12 @@ export default function App() {
     <div style={{ background: C.bg, maxWidth: 480, margin: "0 auto", paddingBottom: 80 }}>
       {/* Header */}
       <div style={{ background: "rgba(255,255,255,0.92)", padding: "14px 16px 10px", borderBottom: `1px solid ${C.border}`, display: "flex", justifyContent: "space-between", alignItems: "center", position: "sticky", top: 0, zIndex: 10, backdropFilter: "blur(10px)" }}>
-        <span style={{ fontSize: 17, fontWeight: 700 }}>💰 Finance</span>
+        <span style={{ fontSize: 17, fontWeight: 700 }}>💰 Personal Finance Tracker</span>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <span style={{ fontSize: 12, color: C.sub }}>{session.user?.email?.split("@")[0]}</span>
+          <div>
+            <div style={{ fontSize: 12, color: C.sub }}>{session.user?.email?.split("@")[0]}</div>
+            <div style={{ fontSize: 10, color: C.sub }}>by Aufar Tirta</div>
+          </div>
           <button onClick={logout} style={{ fontSize: 12, padding: "4px 10px", borderRadius: 8, border: `1px solid ${C.border}`, background: "transparent", cursor: "pointer", color: C.sub }}>Logout</button>
         </div>
       </div>
@@ -238,9 +240,9 @@ export default function App() {
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               <input placeholder="Amount (Rp)" type="number" value={form.amount} onChange={e => setForm(p => ({ ...p, amount: e.target.value }))} style={iStyle()} />
-              <input placeholder="Category (e.g. Food, Salary)" value={form.category} onChange={e => setForm(p => ({ ...p, category: e.target.value }))} style={iStyle()} />
+              <input placeholder="Item (e.g. Food, Salary)" value={form.category} onChange={e => setForm(p => ({ ...p, category: e.target.value }))} style={iStyle()} />
               <input placeholder="Note (optional)" value={form.note} onChange={e => setForm(p => ({ ...p, note: e.target.value }))} style={iStyle()} />
-              <input type="date" value={form.date} onChange={e => setForm(p => ({ ...p, date: e.target.value }))} style={iStyle()} />
+              <input type="date" value={form.date} onChange={e => setForm(p => ({ ...p, date: e.target.value }))} style={iStyle({ boxSizing: "border-box", maxWidth: "100%" })} />
             </div>
             <button onClick={addTransaction} disabled={saving} style={{ width: "100%", marginTop: 14, padding: 14, borderRadius: 12, border: "none", background: C.text, color: "#fff", fontSize: 16, fontWeight: 600, cursor: "pointer" }}>
               {saving ? "Saving..." : "Add Transaction"}
@@ -261,7 +263,7 @@ export default function App() {
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               <input placeholder="Amount (Rp)" type="number" value={recForm.amount} onChange={e => setRecForm(p => ({ ...p, amount: e.target.value }))} style={iStyle()} />
-              <input placeholder="Category" value={recForm.category} onChange={e => setRecForm(p => ({ ...p, category: e.target.value }))} style={iStyle()} />
+              <input placeholder="Item" value={recForm.category} onChange={e => setRecForm(p => ({ ...p, category: e.target.value }))} style={iStyle()} />
               <input placeholder="Note (optional)" value={recForm.note} onChange={e => setRecForm(p => ({ ...p, note: e.target.value }))} style={iStyle()} />
               <select value={recForm.frequency} onChange={e => setRecForm(p => ({ ...p, frequency: e.target.value }))} style={iStyle()}>
                 <option value="daily">Daily</option>
