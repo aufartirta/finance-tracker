@@ -164,7 +164,6 @@ export default function App() {
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <div>
             <div style={{ fontSize: 12, color: C.sub }}>{session.user?.email?.split("@")[0]}</div>
-            <div style={{ fontSize: 10, color: C.sub }}>by Aufar Tirta</div>
           </div>
           <button onClick={logout} style={{ fontSize: 12, padding: "4px 10px", borderRadius: 8, border: `1px solid ${C.border}`, background: "transparent", cursor: "pointer", color: C.sub }}>Logout</button>
         </div>
