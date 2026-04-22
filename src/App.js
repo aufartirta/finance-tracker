@@ -50,12 +50,6 @@ export default function App() {
   const [saving, setSaving] = useState(false);
   const [filterMonth, setFilterMonth] = useState(new Date().toISOString().slice(0, 7));
 
-  useEffect(() => {
-    const s = localStorage.getItem("ft_session");
-    if (s) try { setSession(JSON.parse(s)); } catch {}
-    setLoading(false);
-  }, []);
-
   const fetchData = useCallback(async (token) => {
     try {
       const [tx, rec] = await Promise.all([
@@ -66,6 +60,16 @@ export default function App() {
       setRecurring(rec || []);
     } catch (e) { console.error(e); }
   }, []);
+
+  useEffect(() => {
+    const s = localStorage.getItem("ft_session");
+    if (s) try {
+      const parsed = JSON.parse(s);
+      setSession(parsed);
+      fetchData(parsed.access_token);
+    } catch {}
+    setLoading(false);
+  }, [fetchData]);
 
   useEffect(() => {
     if (session?.access_token) fetchData(session.access_token);
