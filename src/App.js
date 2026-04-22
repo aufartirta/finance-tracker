@@ -43,8 +43,10 @@ export default function App() {
   const [authForm, setAuthForm] = useState({ email: "", password: "" });
   const [authError, setAuthError] = useState("");
   const [authLoading, setAuthLoading] = useState(false);
-  const [form, setForm] = useState({ type: "spending", amount: "", category: "", note: "", date: new Date().toISOString().split("T")[0] });
-  const [recForm, setRecForm] = useState({ type: "spending", amount: "", category: "", note: "", frequency: "monthly", start_date: new Date().toISOString().split("T")[0] });
+  const today = new Date();
+  const localDate = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,"0")}-${String(today.getDate()).padStart(2,"0")}`;
+  const [form, setForm] = useState({ type: "spending", amount: "", category: "", note: "", date: localDate });
+  const [recForm, setRecForm] = useState({ type: "spending", amount: "", category: "", note: "", frequency: "monthly", start_date: localDate });
   const [saving, setSaving] = useState(false);
   const [filterMonth, setFilterMonth] = useState(new Date().toISOString().slice(0, 7));
 
@@ -86,7 +88,7 @@ export default function App() {
     setSaving(true);
     try {
       await api("transactions", { method: "POST", headers: { Prefer: "return=representation" }, body: JSON.stringify({ ...form, amount: parseFloat(form.amount), user_id: session.user?.id }) }, session.access_token);
-      setForm({ type: "spending", amount: "", category: "", note: "", date: new Date().toISOString().split("T")[0] });
+      setForm({ type: "spending", amount: "", category: "", note: "", date: localDate });
       fetchData(session.access_token);
     } catch (err) { console.error(err); }
     setSaving(false);
@@ -239,8 +241,8 @@ export default function App() {
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               <input placeholder="Amount (Rp)" type="number" value={form.amount} onChange={e => setForm(p => ({ ...p, amount: e.target.value }))} style={iStyle()} />
-              <input placeholder="Category (e.g. Food, Salary)" value={form.category} onChange={e => setForm(p => ({ ...p, category: e.target.value }))} style={iStyle()} />
-              <input placeholder="Item name" value={form.note} onChange={e => setForm(p => ({ ...p, note: e.target.value }))} style={iStyle()} />
+              <input placeholder="Item (e.g. Food, Salary)" value={form.category} onChange={e => setForm(p => ({ ...p, category: e.target.value }))} style={iStyle()} />
+              <input placeholder="Note (optional)" value={form.note} onChange={e => setForm(p => ({ ...p, note: e.target.value }))} style={iStyle()} />
               <div style={{ width: "100%", overflow: "hidden", borderRadius: 12, border: `1px solid ${C.border}`, background: "#F9F9F9" }}>
                 <input type="date" value={form.date} onChange={e => setForm(p => ({ ...p, date: e.target.value }))} style={{ width: "100%", padding: "12px 14px", border: "none", fontSize: 16, background: "transparent", color: C.text, outline: "none", boxSizing: "border-box", display: "block" }} />
               </div>
@@ -264,8 +266,8 @@ export default function App() {
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               <input placeholder="Amount (Rp)" type="number" value={recForm.amount} onChange={e => setRecForm(p => ({ ...p, amount: e.target.value }))} style={iStyle()} />
-              <input placeholder="Category" value={recForm.category} onChange={e => setRecForm(p => ({ ...p, category: e.target.value }))} style={iStyle()} />
-              <input placeholder="Item name" value={recForm.note} onChange={e => setRecForm(p => ({ ...p, note: e.target.value }))} style={iStyle()} />
+              <input placeholder="Item" value={recForm.category} onChange={e => setRecForm(p => ({ ...p, category: e.target.value }))} style={iStyle()} />
+              <input placeholder="Note (optional)" value={recForm.note} onChange={e => setRecForm(p => ({ ...p, note: e.target.value }))} style={iStyle()} />
               <select value={recForm.frequency} onChange={e => setRecForm(p => ({ ...p, frequency: e.target.value }))} style={iStyle()}>
                 <option value="daily">Daily</option>
                 <option value="weekly">Weekly</option>
